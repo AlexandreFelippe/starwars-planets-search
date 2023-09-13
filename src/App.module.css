@@ -1,7 +1,8 @@
-.container {
-  align-items: center;
-  display: flex;
-  flex-direction: column;
-  height: 90vh;
-  justify-content: center;
+body {
+  background: #f1f1f1;
+  background-color: rgb(63, 63, 88);
+  color: white;
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
 }

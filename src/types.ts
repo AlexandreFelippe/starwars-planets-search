@@ -19,3 +19,10 @@ export type PlanetContextType = {
   loading: boolean,
   filter: (type:string, value:string) => void,
 };
+
+export type FiltersType = {
+  id: number;
+  column: string;
+  filter: string;
+  value: number;
+};

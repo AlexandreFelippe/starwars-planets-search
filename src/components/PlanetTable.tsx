@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import { PlanetType } from '../types';
 import PlanetContext from '../context/PlanetContext';
+import styles from './PlanetTable.module.css';
 
 export default function PlanetTable() {
   const { data, loading } = useContext(PlanetContext);
@@ -10,7 +11,7 @@ export default function PlanetTable() {
   }
 
   return (
-    <table>
+    <table className={ styles.tabela }>
       <thead>
         <tr>
           <th>Name</th>
@@ -40,7 +41,7 @@ export default function PlanetTable() {
             <td>{info.terrain}</td>
             <td>{info.surface_water}</td>
             <td>{info.population}</td>
-            <td>{info.films.map((film) => film)}</td>
+            <td className={ styles.film }>{info.films.map((film) => film)}</td>
             <td>{info.created}</td>
             <td>{info.edited}</td>
             <td>{info.url}</td>
