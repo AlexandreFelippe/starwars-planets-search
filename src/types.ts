@@ -1,4 +1,4 @@
-export type PlanetContextType = {
+export type PlanetType = {
   name: string,
   rotation_period: string,
   orbital_period: string,
@@ -12,4 +12,10 @@ export type PlanetContextType = {
   created: string,
   edited: string,
   url: string
+};
+
+export type PlanetContextType = {
+  data: PlanetType[],
+  loading: boolean,
+  filter: (type:string, value:string) => void,
 };

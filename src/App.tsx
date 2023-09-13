@@ -1,10 +1,13 @@
-import React from 'react';
 import './App.css';
+import Form from './components/Form';
 import PlanetTable from './components/PlanetTable';
 
 function App() {
   return (
-    <PlanetTable />
+    <>
+      <Form />
+      <PlanetTable />
+    </>
   );
 }
 

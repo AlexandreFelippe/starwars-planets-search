@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 import { PlanetContextType } from '../types';
 
-const PlanetContext = createContext({} as PlanetContextType);
+const PlanetContext = createContext<PlanetContextType>({} as PlanetContextType);
 
 export default PlanetContext;

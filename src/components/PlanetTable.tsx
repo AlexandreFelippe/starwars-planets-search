@@ -1,22 +1,12 @@
-import { useEffect, useState } from 'react';
-import { fetchApi } from '../utils/fethApi';
-import { PlanetContextType } from '../types';
+import { useContext } from 'react';
+import { PlanetType } from '../types';
+import PlanetContext from '../context/PlanetContext';
 
 export default function PlanetTable() {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchData() {
-      const { results } = await fetchApi();
-      setData(results);
-      setLoading(false);
-    }
-    fetchData();
-  }, []);
+  const { data, loading } = useContext(PlanetContext);
 
   if (loading) {
-    <h1>Carregando...</h1>;
+    return <h1>Carregando...</h1>;
   }
 
   return (
@@ -39,7 +29,7 @@ export default function PlanetTable() {
         </tr>
       </thead>
       <tbody>
-        {data.map((info: PlanetContextType) => (
+        {data.map((info: PlanetType) => (
           <tr key={ info.name }>
             <td>{info.name}</td>
             <td>{info.rotation_period}</td>
