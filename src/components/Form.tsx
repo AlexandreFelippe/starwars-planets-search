@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
+import styles from './form.module.css';
 
 const INITIAL_FORM = {
   name: '',
@@ -10,7 +11,7 @@ function Form() {
   const [form, setForm] = useState(INITIAL_FORM);
 
   return (
-    <div>
+    <div className={ styles.container }>
       <input
         data-testid="name-filter"
         type="text"
