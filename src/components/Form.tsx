@@ -2,26 +2,22 @@ import { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 import styles from './form.module.css';
 
-const INITIAL_FORM = {
-  name: '',
-};
-
 const INITIAL_FILTER = {
   id: 0,
+  name: '',
   column: 'population',
   filter: 'maior que',
-  value: 0,
+  value: '0',
 };
 
 function Form() {
-  const { filter } = useContext(PlanetContext);
-  const [form, setForm] = useState(INITIAL_FORM);
-  const [filterForm, setFilterForm] = useState(INITIAL_FILTER);
+  const { allFilters } = useContext(PlanetContext);
+  const [form, setForm] = useState(INITIAL_FILTER);
 
   function handleFilter({ target }: React.ChangeEvent<HTMLInputElement |
   HTMLSelectElement>) {
     const { name, value } = target;
-    setFilterForm({ ...filterForm, [name]: value });
+    setForm({ ...form, [name]: value });
   }
 
   return (
@@ -33,7 +29,7 @@ function Form() {
           name="name"
           onChange={ ({ target: { value, name } }) => {
             setForm({ ...form, [name]: value });
-            filter('INPUT_TEXT', value);
+            allFilters('INPUT_TEXT', value);
           } }
         />
       </div>
@@ -41,32 +37,38 @@ function Form() {
         <select
           data-testid="column-filter"
           name="column"
-          defaultValue={ filterForm.column }
+          defaultValue={ form.column }
           onChange={ handleFilter }
         >
-          <option value="population">Population</option>
-          <option value="orbital_period">Orbital Period</option>
-          <option value="diameter">Diameter</option>
-          <option value="rotation_period">Rotation Period</option>
-          <option value="surface_water">Surface Water</option>
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
         </select>
         <select
           data-testid="comparison-filter"
           name="filter"
-          defaultValue={ filterForm.filter }
+          defaultValue={ form.filter }
           onChange={ handleFilter }
         >
-          <option value="maior que">Maior que</option>
-          <option value="menor que">Menor que</option>
-          <option value="igual a">Igual a</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
-        <input data-testid="value-filter" type="number" />
+        <input
+          data-testid="value-filter"
+          type="number"
+          onChange={ handleFilter }
+          name="value"
+          value={ form.value }
+        />
         <button
           type="button"
           data-testid="button-filter"
-          onClick={ (event) => {
-            event.preventDefault();
-            setFilterForm({ ...filterForm, id: filterForm.id + 1 });
+          onClick={ () => {
+            const { column, filter, value } = form;
+            allFilters('SELECT_COLUMN', { column, filter, value });
           } }
         >
           Filtrar

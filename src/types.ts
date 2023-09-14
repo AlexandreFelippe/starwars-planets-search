@@ -17,7 +17,7 @@ export type PlanetType = {
 export type PlanetContextType = {
   data: PlanetType[],
   loading: boolean,
-  filter: (type:string, value:string) => void,
+  allFilters: (type:string, value:any) => void,
 };
 
 export type FiltersType = {

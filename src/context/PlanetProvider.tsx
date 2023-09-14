@@ -6,6 +6,12 @@ import { fetchApi } from '../utils/fethApi';
 type PlanetProviderProps = {
   children: React.ReactNode
 };
+type ColumnType = {
+  column:
+  'population' | 'orbital_period' | 'diameter' | 'rotation_period' | 'surface_water';
+  filter: 'maior que' | 'menor que' | 'igual a';
+  value: string;
+};
 
 function PlanetProvider({ children }: PlanetProviderProps) {
   const [data, setData] = useState<PlanetType[]>([]);
@@ -22,50 +28,36 @@ function PlanetProvider({ children }: PlanetProviderProps) {
     fetchData();
   }, []);
 
-  function filter(type: string, value: string) {
+  function allFilters(type: string, value: any) {
     if (type === 'INPUT_TEXT') {
-      const filtro = backup.filter((planet) => planet
+      let filtro = backup;
+      filtro = backup.filter((planet) => planet
         .name.toLowerCase().includes(value.toLocaleLowerCase()));
       setData(filtro);
     }
-    if (type === 'maior que') {
-      const filtro = data.filter((planet) => Number(planet
-        .population) > Number(value));
-      setData(filtro);
-    }
-    if (type === 'menor que') {
-      const filtro = data.filter((planet) => Number(planet
-        .population) < Number(value));
-      setData(filtro);
-    }
-    if (type === 'igual a') {
-      const filtro = data.filter((planet) => Number(planet
-        .population) === Number(value));
+    if (type === 'SELECT_COLUMN') {
+      let filtro = data;
+      const { column, filter, value: valueFilter }: ColumnType = value;
+      filtro = filtro.filter((planet) => Number.isNaN(Number(planet[column])) === false);
+      if (filter === 'maior que') {
+        filtro = filtro.filter((planet) => Number(planet[column]) > Number(valueFilter));
+      }
+      if (filter === 'menor que') {
+        filtro = filtro.filter((planet) => Number(planet[column]) < Number(valueFilter));
+      }
+      if (filter === 'igual a') {
+        filtro = filtro
+          .filter((planet) => Number(planet[column]) === Number(valueFilter));
+      }
       setData(filtro);
     }
   }
-
-  // function filterPlanets(filters: FiltersType) {
-  //   let filtro = data;
-  //   switch (filtro) {
-  //     case 'maior que':
-  //       filtro = data.filter((planet) => Number(planet) > Number(value));
-  //       break;
-  //     case 'menor que':
-  //       filtro = data.filter((planet) => Number(planet) < Number(value));
-  //       break;
-  //     case 'igual a':
-  //       filtro = data.filter((planet) => Number(planet) === Number(value));
-  //       break;
-  //     default:
-  //       return data;
-  //   }
 
   const store = {
     data,
     setData,
     loading,
-    filter,
+    allFilters,
   };
 
   return (
