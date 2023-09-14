@@ -58,6 +58,7 @@ function PlanetProvider({ children }: PlanetProviderProps) {
     setData,
     loading,
     allFilters,
+    backup,
   };
 
   return (

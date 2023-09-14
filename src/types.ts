@@ -18,6 +18,8 @@ export type PlanetContextType = {
   data: PlanetType[],
   loading: boolean,
   allFilters: (type:string, value:any) => void,
+  backup: PlanetType[],
+  setData: (data:PlanetType[]) => void,
 };
 
 export type FiltersType = {
