@@ -20,11 +20,21 @@ export type PlanetContextType = {
   allFilters: (type:string, value:any) => void,
   backup: PlanetType[],
   setData: (data:PlanetType[]) => void,
+  setFiltersArray: (filtersArray:FiltersType[]) => void,
+  filtersArray: FiltersType[],
+  restoreFilters: (a: string) => void,
 };
 
 export type FiltersType = {
-  id: number;
+  // id: number;
   column: string;
   filter: string;
-  value: number;
+  value: string;
+};
+
+export type ColumnType = {
+  column:
+  'population' | 'orbital_period' | 'diameter' | 'rotation_period' | 'surface_water';
+  filter: 'maior que' | 'menor que' | 'igual a';
+  value: string;
 };

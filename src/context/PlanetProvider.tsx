@@ -1,22 +1,17 @@
 import { useEffect, useState } from 'react';
 import PlanetContext from './PlanetContext';
-import { PlanetType } from '../types';
+import { PlanetType, ColumnType, FiltersType } from '../types';
 import { fetchApi } from '../utils/fethApi';
 
 type PlanetProviderProps = {
   children: React.ReactNode
-};
-type ColumnType = {
-  column:
-  'population' | 'orbital_period' | 'diameter' | 'rotation_period' | 'surface_water';
-  filter: 'maior que' | 'menor que' | 'igual a';
-  value: string;
 };
 
 function PlanetProvider({ children }: PlanetProviderProps) {
   const [data, setData] = useState<PlanetType[]>([]);
   const [backup, setBackup] = useState<PlanetType[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filtersArray, setFiltersArray] = useState<FiltersType[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -53,12 +48,37 @@ function PlanetProvider({ children }: PlanetProviderProps) {
     }
   }
 
+  function restoreFilters(id: string) {
+    const newFiltersArray = filtersArray.filter((filter) => filter.column !== id);
+    setFiltersArray(newFiltersArray);
+    let newData = backup;
+    newFiltersArray.forEach((filter) => {
+      const { column, filter: filterColumn, value }: ColumnType = filter as ColumnType;
+      if (filterColumn === 'maior que') {
+        newData = newData
+          .filter((planet) => Number(planet[column]) > Number(value));
+      }
+      if (filterColumn === 'menor que') {
+        newData = newData
+          .filter((planet) => Number(planet[column]) < Number(value));
+      }
+      if (filterColumn === 'igual a') {
+        newData = newData
+          .filter((planet) => Number(planet[column]) === Number(value));
+      }
+    });
+    setData(newData);
+  }
+
   const store = {
     data,
     setData,
     loading,
     allFilters,
     backup,
+    setFiltersArray,
+    filtersArray,
+    restoreFilters,
   };
 
   return (
