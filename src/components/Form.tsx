@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 import styles from './form.module.css';
-// import { FiltersType } from '../types';
 
 const ColumnFilter = ['population', 'orbital_period',
   'diameter', 'rotation_period', 'surface_water'];
@@ -27,8 +26,9 @@ function Form() {
   }
 
   function handleDeleteFilters() {
-    setRenderFilter(false);
     setData(backup);
+    setFiltersArray([]);
+    setColumnFilter(ColumnFilter);
   }
 
   function hiddenColumn(value: string) {

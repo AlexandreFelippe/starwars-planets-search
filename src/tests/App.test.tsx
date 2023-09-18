@@ -48,4 +48,17 @@ test('Verifica se os dados da tabela estão renderizados', async () => {
   expect(screen.getByRole('cell', { name: /tatooine/i})).toBeInTheDocument();
   }, { timeout: 5000 })
   screen.debug();
-}, 10000);
+  const selectFilterColumn = screen.getByTestId('column-filter')
+  const selectFilterComparison = screen.getByTestId('comparison-filter')
+  const inputValueFilter = screen.getByTestId('value-filter')
+  await userEvent.selectOptions(selectFilterColumn, 'population');
+  await userEvent.selectOptions(selectFilterComparison, 'menor que');
+  await userEvent.type(inputValueFilter, '100000');
+  await userEvent.click(screen.getByRole('button', { name: /filtrar/i }));
+  const rows = screen.getAllByRole('row');
+  expect(rows.length).toBe(2);  
+  expect(screen.getByRole('cell', { name: /Yavin IV/i})).toBeInTheDocument();
+  const inputFilterName = screen.getByRole('textbox')
+  await userEvent.type(inputFilterName, 'Al');
+  expect(screen.getByRole('cell', { name: /Alderaan/i})).toBeInTheDocument();
+});
