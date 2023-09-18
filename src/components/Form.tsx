@@ -19,13 +19,11 @@ function Form() {
   const [renderFilter, setRenderFilter] = useState(false);
   const [columnFilter, setColumnFilter] = useState(ColumnFilter);
   const [form, setForm] = useState(INITIAL_FILTER);
-  console.log(form);
 
   function handleFilter({ target }: React.ChangeEvent<HTMLInputElement |
   HTMLSelectElement>) {
     const { name, value } = target;
     setForm({ ...form, [name]: value });
-    // setAllrendersFilters(...allRenderFilters, renderFilter);
   }
 
   function handleDeleteFilters() {

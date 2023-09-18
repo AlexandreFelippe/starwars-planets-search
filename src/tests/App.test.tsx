@@ -1,17 +1,19 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import App from '../App';
-import { mockData } from '../utils/mockData';
 import { vi } from 'vitest';
-// import userEvent from '@testing-library/user-event';
+import userEvent from '@testing-library/user-event';
+import PlanetProvider from '../context/PlanetProvider';
+import fetchData from '../utils/mockData';
 
 beforeEach(() => {
-  const mockResponse = {
+  const MOCK_API = fetchData;
+  const MOCK_RESPONSE = {
     ok: true,
     status: 200,
-    json: async () => mockData,
+    json: async () => MOCK_API,
   } as Response;
 
-  const mockFetch = vi.spyOn(global, 'fetch').mockResolvedValue(mockResponse);
+  const mockFetch = vi.spyOn(global, 'fetch').mockResolvedValue(MOCK_RESPONSE);
 });
 
 afterEach(() => {
@@ -19,24 +21,31 @@ afterEach(() => {
 });
 
 test('Verifica se os campos do form estão na tela', async () => {
-  // render(<App />);
-  // const inputFilterName = screen.getByRole('textbox')
-  // expect(inputFilterName).toBeInTheDocument();
-  // const selectFilterColumn = screen.getByTestId('column-filter')
-  // expect(selectFilterColumn).toHaveTextContent('population');
-  // const selectFilterComparison = screen.getByTestId('comparison-filter')
-  // expect(selectFilterComparison).toBeInTheDocument();
-  // const inputValueFilter = screen.getByTestId('value-filter')
-  // expect(inputValueFilter).toBeInTheDocument();
-  // const buttonFilter = screen.getByRole('button', { name: /filtrar/i })
-  // expect(buttonFilter).toBeInTheDocument();
-  // const buttonClear = screen.getByRole('button', { name: /remover filtros/i })
-  // expect(buttonClear).toBeInTheDocument();
+  render(<PlanetProvider><App/></PlanetProvider>);
+  const inputFilterName = screen.getByRole('textbox')
+  expect(inputFilterName).toBeInTheDocument();
+  const selectFilterColumn = screen.getByTestId('column-filter')
+  expect(selectFilterColumn).toHaveTextContent('population');
+  const selectFilterComparison = screen.getByTestId('comparison-filter')
+  expect(selectFilterComparison).toBeInTheDocument();
+  const inputValueFilter = screen.getByTestId('value-filter')
+  expect(inputValueFilter).toBeInTheDocument();
+  const buttonFilter = screen.getByRole('button', { name: /filtrar/i })
+  expect(buttonFilter).toBeInTheDocument();
+  const buttonClear = screen.getByRole('button', { name: /remover filtros/i })
+  expect(buttonClear).toBeInTheDocument();
 });
 
 test('Verifica se os dados da tabela estão renderizados', async () => {
-  render(<App />);
-  // const inputFilterName = screen.getByRole('textbox')
-  // await userEvent.type(inputFilterName, 'at');
-  // expect('Tatooine').toBeInTheDocument();
-});
+  render(
+    <PlanetProvider>
+      <App/>
+    </PlanetProvider>);
+    expect(global.fetch).toBeCalled();
+    expect(global.fetch).toHaveBeenCalledWith('https://swapi.dev/api/planets');
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  await waitFor(() => {
+  expect(screen.getByRole('cell', { name: /tatooine/i})).toBeInTheDocument();
+  }, { timeout: 5000 })
+  screen.debug();
+}, 10000);
