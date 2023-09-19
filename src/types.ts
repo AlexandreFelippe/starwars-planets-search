@@ -11,7 +11,8 @@ export type PlanetType = {
   films: string[],
   created: string,
   edited: string,
-  url: string
+  url: string,
+  [key: string]: string | string[],
 };
 
 export type PlanetContextType = {
@@ -35,6 +36,6 @@ export type FiltersType = {
 export type ColumnType = {
   column:
   'population' | 'orbital_period' | 'diameter' | 'rotation_period' | 'surface_water';
-  filter: 'maior que' | 'menor que' | 'igual a';
-  value: string;
+  filter?: 'maior que' | 'menor que' | 'igual a';
+  value?: string;
 };

@@ -13,7 +13,7 @@ export default function PlanetTable() {
   return (
     <table className={ styles.tabela }>
       <thead>
-        <tr>
+        <tr className={ styles.header }>
           <th>Name</th>
           <th>Rotation Period</th>
           <th>Orbital Period</th>
@@ -29,10 +29,17 @@ export default function PlanetTable() {
           <th>URL</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className={ styles.tbody }>
         {data.map((info: PlanetType) => (
-          <tr key={ info.name }>
-            <td>{info.name}</td>
+          <tr
+            key={ info.name }
+
+          >
+            <td
+              data-testid="planet-name"
+            >
+              {info.name}
+            </td>
             <td>{info.rotation_period}</td>
             <td>{info.orbital_period}</td>
             <td>{info.diameter}</td>
