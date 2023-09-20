@@ -48,7 +48,7 @@ export default function PlanetTable() {
             <td>{info.terrain}</td>
             <td>{info.surface_water}</td>
             <td>{info.population}</td>
-            <td className={ styles.film }>{info.films.map((film) => film)}</td>
+            <td className={ styles.films }>{info.films.map((film) => film)}</td>
             <td>{info.created}</td>
             <td>{info.edited}</td>
             <td>{info.url}</td>
