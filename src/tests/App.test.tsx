@@ -56,7 +56,7 @@ test('Verifica se os dados da tabela estão renderizados', async () => {
   await userEvent.type(inputValueFilter, '100000');
   await userEvent.click(screen.getByRole('button', { name: /filtrar/i }));
   const rows = screen.getAllByRole('row');
-  expect(rows.length).toBe(2);  
+  expect(rows.length).toBe(2);
   expect(screen.getByRole('cell', { name: /Yavin IV/i})).toBeInTheDocument();
   const inputFilterName = screen.getByRole('textbox')
   await userEvent.type(inputFilterName, 'Al');
